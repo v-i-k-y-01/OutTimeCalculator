@@ -28,8 +28,16 @@ const App = () => {
       const inTimeInMinutes = inTime.hour() * 60 + inTime.minute();
       const effectiveHoursInMinutes = effectiveHours.hour() * 60 + effectiveHours.minute();
 
-      const outTimeInMinutes = inTimeInMinutes + (grossHoursInMinutes - effectiveHoursInMinutes);
-      const calculatedOutTime = `${Math.floor(outTimeInMinutes / 60).toString().padStart(2, '0')}:${(outTimeInMinutes % 60).toString().padStart(2, '0')}`;
+      const outTimeInMinutes = inTimeInMinutes + 9*60 + (grossHoursInMinutes - effectiveHoursInMinutes);
+      
+      // Convert to 12-hour format
+      let hours = Math.floor(outTimeInMinutes / 60);
+      const minutes = outTimeInMinutes % 60;
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+      hours = hours % 12;
+      hours = hours ? hours : 12; // Convert 0 to 12
+      
+      const calculatedOutTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')} ${ampm}`;
 
       setOutTime(calculatedOutTime);
     } catch (err) {
